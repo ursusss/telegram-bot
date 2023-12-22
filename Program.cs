@@ -8,8 +8,15 @@ client.StartReceiving(Update, Error);
 
 String GetTelegramToken()
 {
-    System.IO.StreamReader file = new System.IO.StreamReader("/run/secrets/token");
-    return file.ReadLine();
+    try {
+        // Production build scenario:
+        System.IO.StreamReader file = new System.IO.StreamReader("/run/secrets/token");
+        return file.ReadLine();
+    } catch (Exception e) {
+        // Development build scenario, Win32 compatible
+        System.IO.StreamReader file = new System.IO.StreamReader("token.txt");
+        return file.ReadLine();
+    }
 }
 
 async Task Update(ITelegramBotClient botClient, Update update, CancellationToken token)
