@@ -1,0 +1,9 @@
+services:
+  telegram-bot:
+    build: .
+    secrets:
+      - token
+    restart: unless-stopped
+secrets:
+  token:
+    file: ./token.txt
